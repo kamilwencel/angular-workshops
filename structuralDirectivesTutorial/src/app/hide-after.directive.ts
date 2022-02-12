@@ -32,11 +32,11 @@ export class HideAfterDirective implements OnInit {
 
   // We need to name input as -> directiveName + camelcase argument
   // *appHideAfter="5000; then placeholder" -> 'appHideAfterThen'
-  @Input('appHideAfterThen') placeholder: TemplateRef<any> | null = null;
+  @Input('appHideAfterThen') placeholder: TemplateRef<HideAfterContext> | null = null;
 
   constructor(
     private viewContainerRef: ViewContainerRef,
-    private template: TemplateRef<any>
+    private template: TemplateRef<HideAfterContext>
     ) { }
 
   private context = new HideAfterContext();
@@ -64,10 +64,14 @@ export class HideAfterDirective implements OnInit {
 
   }
 
-  private renderTemplate(template: TemplateRef<any>){
+  private renderTemplate(template: TemplateRef<HideAfterContext>){
 
     // render template inside ng-template container
     this.viewContainerRef.createEmbeddedView(template, this.context);
+  }
+
+  static ngTemplateContextGuard(dir: HideAfterDirective,ctx:unknown): ctx is HideAfterContext{
+    return true;
   }
   
 }
